@@ -28,9 +28,6 @@ DEFAULT_TOOLS = {
     "rag": "rag_query",
 }
 
-# Which tool is the "sensitive action" the invariant protects.
-DEFAULT_SENSITIVE = ("send",)
-
 
 @dataclass
 class ToolCall:
@@ -56,7 +53,7 @@ class TrajectoryLogger:
     def _kind(self, call: ToolCall) -> str | None:
         return self._inv.get(call.name)
 
-    def feature_vector(self, sensitive: tuple[str, ...] = DEFAULT_SENSITIVE) -> dict[str, float]:
+    def feature_vector(self) -> dict[str, float]:
         """19 structural features (no content inspected)."""
         calls = sorted(self.calls, key=lambda c: c.timestamp)
         n = len(calls)

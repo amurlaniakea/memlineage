@@ -72,8 +72,8 @@ def _s1_spoof(reg: KeyRegistry) -> bool:
         return False
 
 
-def _s2_external_real(reg, gate, store, lineage, n_poison=1) -> bool:
-    rng = random.Random(7)  # nosec B311  # nosonar: benchmark RNG, not security-critical
+def _s2_external_real(reg, gate, store, lineage, n_poison=1) -> bool:  # NOSONAR args kept for test-call compatibility
+    rng = random.Random(7)  # nosec B311  # NOSONAR: benchmark RNG, not security-critical
     poison_ids = []
     for _ in range(n_poison):
         payload = generate_poison(rng.choice(TRIGGERS), rng)
@@ -84,7 +84,7 @@ def _s2_external_real(reg, gate, store, lineage, n_poison=1) -> bool:
     return v.allowed
 
 
-def _s3_authorized_injection(reg, store, lineage, rng, camouflage: bool) -> bool:
+def _s3_authorized_injection(reg, store, lineage, rng, camouflage: bool) -> bool:  # NOSONAR args kept for test-call compatibility
     """Agent (trusted key) writes a PARAPHRASED poison, then a recall->send
     trajectory (obsessive recall on the trigger). If camouflage, the attacker
     reduces recalls / interleaves noise to break the distributed signature.
@@ -103,7 +103,7 @@ def _build_benign_log(rng) -> TrajectoryLogger:
 
 def run(n_s1=100, n_s2=200, n_s3=200, n_benign=200, seed=42,
         camouflage=False) -> BenchResult:
-    rng = random.Random(seed)  # nosec B311  # nosonar: benchmark RNG, not security-critical
+    rng = random.Random(seed)  # nosec B311  # NOSONAR: benchmark RNG, not security-critical
 
     # S1
     spoof_blocked = sum(0 if _s1_spoof(_make_registry()) else 1 for _ in range(n_s1))

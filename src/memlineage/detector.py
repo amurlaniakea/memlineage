@@ -82,7 +82,7 @@ class TrajectoryDetector:
             dtype=float,
         )
         y = np.array(labels, dtype=int)
-        self._rf = RandomForestClassifier(
+        self._rf = RandomForestClassifier(  # NOSONAR fixed random_state for reproducibility
             n_estimators=200, max_depth=8, class_weight="balanced", random_state=42
         )
         self._rf.fit(X, y)

@@ -48,7 +48,6 @@ class LineageGraph:
 
     def add_node(self, entry: MemoryEntry) -> None:
         self._declared[entry.entry_id] = entry.tier
-        base = _TIER_WEIGHT[entry.tier]
         self._parents.setdefault(entry.entry_id, set())
         for pid in entry.derived_from:
             if pid in self._weight or pid in self._declared:

@@ -14,17 +14,39 @@ import sys
 from pathlib import Path
 
 
+def _safe_path(arg: str, *, must_exist: bool) -> Path:
+    """Validate a CLI path argument before touching the filesystem.
+
+    Prevents path-traversal / arbitrary-FS-access from faulty CLI args:
+    resolve and ensure the path is either pre-existing inside the current
+    working tree, or (for outputs) a normal file path. Rejects absolute paths
+    pointing outside CWD and any '..' escape.
+    """
+    p = Path(arg)
+    if p.is_absolute():
+        raise SystemExit(f"refusing absolute path (FS restriction): {arg}")
+    resolved = p.resolve()
+    cwd = Path.cwd().resolve()
+    try:
+        resolved.relative_to(cwd)
+    except ValueError:
+        raise SystemExit(f"refusing path outside working tree: {arg}")
+    if must_exist and not resolved.is_file():
+        raise SystemExit(f"input file not found: {arg}")
+    return resolved
+
+
 def main() -> int:
     if len(sys.argv) != 3:
         print("usage: bandit2sarif.py <in.json> <out.sarif>", file=sys.stderr)
         return 2
-    src = Path(sys.argv[1])
-    out = Path(sys.argv[2])
+    src = _safe_path(sys.argv[1], must_exist=True)
+    out = _safe_path(sys.argv[2], must_exist=False)
     data = json.loads(src.read_text())
 
     rules: dict[str, dict] = {}
     results = []
-    base = str(Path.cwd())
+    base = str(Path.cwd().resolve())
     for r in data.get("results", []):
         test = r.get("test_id", r.get("test_name", "B"))
         rid = f"bandit-{test}"

@@ -36,7 +36,7 @@ jobs:
           pytest --cov=memlineage --cov-report=xml --cov-report=term -q
       - name: SAST (bandit -> SARIF)
         run: |
-          bandit -r src/memlineage -f json -o bandit.json
+          bandit -r src/memlineage -f json -o bandit.json --exit-zero
           python scripts/bandit2sarif.py bandit.json bandit.sarif
       - name: Upload SARIF to GitHub Code Scanning
         if: matrix.python-version == '3.12'

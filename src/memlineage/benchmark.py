@@ -73,7 +73,7 @@ def _s1_spoof(reg: KeyRegistry) -> bool:
 
 
 def _s2_external_real(reg, gate, store, lineage, n_poison=1) -> bool:
-    rng = random.Random(7)  # nosec B311 - benchmark RNG, not security-critical
+    rng = random.Random(7)  # nosec B311
     poison_ids = []
     for _ in range(n_poison):
         payload = generate_poison(rng.choice(TRIGGERS), rng)
@@ -103,7 +103,7 @@ def _build_benign_log(rng) -> TrajectoryLogger:
 
 def run(n_s1=100, n_s2=200, n_s3=200, n_benign=200, seed=42,
         camouflage=False) -> BenchResult:
-    rng = random.Random(seed)  # nosec B311 - benchmark RNG, not security-critical
+    rng = random.Random(seed)  # nosec B311
 
     # S1
     spoof_blocked = sum(0 if _s1_spoof(_make_registry()) else 1 for _ in range(n_s1))

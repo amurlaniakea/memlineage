@@ -10,7 +10,7 @@ Integrated memory-poisoning defense for persistent LLM agents (Python, AGPL-3.0-
 Persistent agent memory (RAG / agentic memory) creates a new attack surface: an
 adversary interacting only through normal channels can inject crafted memories
 that, once retrieved, steer the agent's future behavior — without touching model
-weights or code. Academic work (SMSR 2606.12703, TMA-NM 2606.24322, MemLineage
+weights or code. Academic work (SMSR 2606.12703, Louck 2606.24322, MemLineage
 2605.14421, Forensic Trajectory 2606.30566) shows content-based filters are
 bypassed by fluent enterprise-style text, and trust-score defenses are malleable
 via laundering. **Layer A follows closely the design of Ouyang & Hou,
@@ -28,8 +28,10 @@ derivation DAG, and the max-of-strong-edges propagation rule used here.**
 - **Layer B (trajectory detector)** builds on *Forensic Trajectory Signatures for
   Agent Memory Poisoning Detection* (arXiv:2606.30566).
 - The "content-based filters are bypassed by fluent enterprise-style text"
-  thesis is supported by SMSR (arXiv:2606.12703) and TMA-NM (arXiv:2606.24322).
-  Note: SMSR and TMA-NM are single-author preprints not yet confirmed
+  thesis is supported by SMSR (arXiv:2606.12703) and Louck (arXiv:2606.24322,
+  "Securing LLM-Agent Long-Term Memory Against Poisoning: Non-Malleable,
+  Origin-Bound Authority with Machine-Checked Guarantees").
+  Note: SMSR and Louck 2606.24322 are single-author preprints not yet confirmed
   peer-reviewed; treat their claims as preliminary.
 
 ## Design (two layers, built together)

@@ -13,7 +13,24 @@ that, once retrieved, steer the agent's future behavior — without touching mod
 weights or code. Academic work (SMSR 2606.12703, TMA-NM 2606.24322, MemLineage
 2605.14421, Forensic Trajectory 2606.30566) shows content-based filters are
 bypassed by fluent enterprise-style text, and trust-score defenses are malleable
-via laundering.
+via laundering. **Layer A follows closely the design of Ouyang & Hou,
+"MemLineage: Lineage-Guided Enforcement for LLM Agent Memory" (arXiv:2605.14421),
+which introduced the Ed25519-signed Merkle-log memory model, the weighted
+derivation DAG, and the max-of-strong-edges propagation rule used here.**
+
+## Prior art / Attribution
+
+- **Layer A (cryptographic origin-binding)** is built directly on
+  Ouyang & Hou, *MemLineage: Lineage-Guided Enforcement for LLM Agent Memory*,
+  arXiv:2605.14421 (CAS Beijing, 2026-05-14). We thank the authors; this project
+  is an independent engineering implementation of their published design, not a
+  parallel rediscovery.
+- **Layer B (trajectory detector)** builds on *Forensic Trajectory Signatures for
+  Agent Memory Poisoning Detection* (arXiv:2606.30566).
+- The "content-based filters are bypassed by fluent enterprise-style text"
+  thesis is supported by SMSR (arXiv:2606.12703) and TMA-NM (arXiv:2606.24322).
+  Note: SMSR and TMA-NM are single-author preprints not yet confirmed
+  peer-reviewed; treat their claims as preliminary.
 
 ## Design (two layers, built together)
 
